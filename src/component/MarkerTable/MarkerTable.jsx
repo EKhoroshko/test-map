@@ -8,6 +8,7 @@ function MarkerTable({ markerList }) {
     if (markerList) {
       const colorConversion =
         Object.values(markerList).reduce((acc, item) => (
+          // eslint-disable-next-line no-sequences
           (acc[item.color] = (acc[item.color] || 0) + 1), acc
         )
           , {})
