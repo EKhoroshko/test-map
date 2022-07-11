@@ -21,13 +21,7 @@ function MapView({ mapStyle }) {
 
   const getLocationClick = (e) => {
     const id = Date.now();
-    let _markerList = markerList
-
-    if (!markerList) {
-      _markerList = {}
-    }
-
-    setMarkerList({ ..._markerList, [id]: { ...e.lngLat, color: "black", rating: 0 } });
+    setMarkerList({ ...markerList, [id]: { ...e.lngLat, color: "black" } });
   }
 
   const onMarkerDragStart = (id) => {
@@ -49,30 +43,21 @@ function MapView({ mapStyle }) {
   const onChangeColor = (id, color) => {
     let _markerList = { ...markerList };
     delete _markerList[id];
+
     const _id = Date.now();
+    const markerColor = colors.get(color);
 
-    let _rating = 0;
-
-    if (markerList[id].rating === 0) {
-      _rating = markerList[id].rating + color
-    } else {
-      _rating = (markerList[id].rating + color) / 2
-    }
-
-    const ceilRating = Math.ceil(_rating);
-    const markerColor = colors.get(ceilRating);
     setMarkerList({
-      ..._markerList, [_id]: { ...markerList[id], color: markerColor, rating: _rating }
+      ..._markerList, [_id]: { ...markerList[id], color: markerColor }
     });
 
     setIsOpen(false);
   }
 
   const removeMarker = (id) => {
-    const _markerList = { ...markerList };
-    delete _markerList[id];
+    delete markerList[id];
 
-    setMarkerList(_markerList);
+    setMarkerList(markerList);
     setIsOpen(false);
   }
 
