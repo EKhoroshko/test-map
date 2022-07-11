@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Map, { Marker, Popup } from 'react-map-gl';
 import PopupList from '../PopupList/PopupList';
 import MarkerTable from '../MarkerTable/MarkerTable';
-import { colors } from './colors';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '../../App.css';
 
@@ -45,19 +44,19 @@ function MapView({ mapStyle }) {
     delete _markerList[id];
 
     const _id = Date.now();
-    const markerColor = colors.get(color);
 
     setMarkerList({
-      ..._markerList, [_id]: { ...markerList[id], color: markerColor }
+      ..._markerList, [_id]: { ...markerList[id], color }
     });
 
     setIsOpen(false);
   }
 
   const removeMarker = (id) => {
-    delete markerList[id];
+    let _markerList = { ...markerList };
+    delete _markerList[id];
 
-    setMarkerList(markerList);
+    setMarkerList(_markerList);
     setIsOpen(false);
   }
 

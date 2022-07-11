@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { colors, colorWeight } from '../../helper/colors';
 import css from '../MarkerTable/MarkerTable.module.css';
 
 function MarkerTable({ markerList }) {
@@ -28,6 +29,18 @@ function MarkerTable({ markerList }) {
     element.remove();
   }
 
+  const sumOneMarker = (count, color) => {
+    return colorWeight[color] * count;
+  }
+
+  const totalMarkerWeight = () => {
+    if (array) {
+      return Object.entries(array).map(item => {
+        return colorWeight[item[0]] * item[1]
+      }).reduce((acc, item) => acc + item, 0)
+    }
+  }
+
   return (
     <div className={css.box}>
       <table >
@@ -40,15 +53,15 @@ function MarkerTable({ markerList }) {
         <tbody>
           {array &&
             <tr>
-              <td>Total Marker: </td>
-              <td>{Object.keys(markerList).length}</td>
+              <td>Total: </td>
+              <td>{totalMarkerWeight()}</td>
             </tr>
           }
           {array && Object.entries(array).map((item, index) => {
             return (
               <tr key={index}>
-                <td>{item[0]}</td>
-                <td>{item[1]}</td>
+                <td>{colors.get(item[0])}</td>
+                <td>{sumOneMarker(item[1], item[0])}</td>
               </tr>
             )
           })
